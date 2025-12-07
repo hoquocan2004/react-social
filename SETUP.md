@@ -1,4 +1,4 @@
-# Hướng dẫn chạy ứng dụng Fakebook
+# Hướng dẫn chạy ứng dụng BoomSocial
 
 ## Yêu cầu
 

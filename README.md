@@ -1,4 +1,4 @@
-# 📱 Fakebook - Social Network Application
+# 📱 BoomSocial - Social Network Application
 
 Một ứng dụng mạng xã hội được xây dựng bằng **Node.js**, **Express**, **React**, và **MySQL**.
 

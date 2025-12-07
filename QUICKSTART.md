@@ -1,4 +1,4 @@
-## 🚀 Hướng Dẫn Nhanh Chạy Fakebook
+## 🚀 Hướng Dẫn Nhanh Chạy BoomSocial
 
 ### 1️⃣ Chuẩn Bị
 

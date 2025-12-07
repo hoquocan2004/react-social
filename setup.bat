@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo.
-echo 🚀 Bat dau cai dat ung dung Fakebook...
+echo 🚀 Bat dau cai dat ung dung BoomSocial...
 echo.
 
 REM Kiem tra Node.js

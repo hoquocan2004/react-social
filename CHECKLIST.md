@@ -1,4 +1,4 @@
-## 📋 BÁO CÁO KIỂM TRA CHUYÊN SÂU - FAKEBOOK
+## 📋 BÁO CÁO KIỂM TRA CHUYÊN SÂU - BOOMSOCIAL
 
 ### ✅ STATUS: TẤT CẢ ĐỀU OKY!
 

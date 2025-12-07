@@ -1,4 +1,4 @@
-# 📚 Tài Liệu Dự Án Fakebook - INDEX
+# 📚 Tài Liệu Dự Án BoomSocial - INDEX
 
 **Cập nhật:** 7 Tháng 12, 2025  
 **Trạng Thái:** ✅ Sẵn Sàng Production

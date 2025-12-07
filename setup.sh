@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Script để chạy ứng dụng Fakebook
+# Script để chạy ứng dụng BoomSocial
 
-echo "🚀 Bắt đầu cài đặt ứng dụng Fakebook..."
+echo "🚀 Bắt đầu cài đặt ứng dụng BoomSocial..."
 
 # Kiểm tra Node.js
 if ! command -v node &> /dev/null
