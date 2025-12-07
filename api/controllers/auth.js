@@ -51,23 +51,29 @@ export const register = (req, res) => {
 };
 
 export const login = (req, res) => {
-  const q = "SELECT * FROM users WHERE email = ?"; // Thay đổi truy vấn từ username sang email
-  db.query(q, [req.body.email], (err, data) => {
+  // Allow login by either username or email. Frontend may send `username` field.
+  const identifier = req.body.username || req.body.email;
+  const password = req.body.password;
+
+  if (!identifier || !password) {
+    return res.status(400).json("Vui lòng cung cấp tài khoản và mật khẩu.");
+  }
+
+  const q = "SELECT * FROM users WHERE username = ? OR email = ? LIMIT 1";
+  db.query(q, [identifier, identifier], (err, data) => {
     if (err) return res.status(500).json(err);
-    if (data.length === 0)
+    if (!data || data.length === 0)
       return res.status(404).json("Không tìm thấy người dùng");
 
-    const checkPassword = bcrypt.compareSync(
-      req.body.password,
-      data[0].password
-    );
+    const user = data[0];
+    const checkPassword = bcrypt.compareSync(password, user.password);
 
     if (!checkPassword)
       return res.status(400).json("Sai tài khoản hoặc mật khẩu!");
 
-    const token = jwt.sign({ id: data[0].id }, "secretkey");
+    const token = jwt.sign({ id: user.id }, "secretkey");
 
-    const { password, ...others } = data[0];
+    const { password: pw, ...others } = user;
     res
       .cookie("accessToken", token, {
         httpOnly: true,
