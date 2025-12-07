@@ -6,7 +6,7 @@ import multer from "multer"; // Import multer
 // Cấu hình Multer để lưu tệp upload vào thư mục "public/upload"
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "../client/public/upload"); // Thư mục chứa ảnh upload
+    cb(null, "public/upload"); // Thư mục chứa ảnh upload
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "_" + file.originalname); // Tạo tên tệp duy nhất cho mỗi ảnh

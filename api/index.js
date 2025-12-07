@@ -1,4 +1,5 @@
 import express from "express";
+import fs from "fs";
 const app = express();
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
@@ -25,10 +26,10 @@ app.use(cookieParser());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../client/public/upload");
+    cb(null, "public/upload");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
+    cb(null, Date.now() + "_" + file.originalname);
   },
 });
 
@@ -47,6 +48,11 @@ app.use("/api/relationships", relationshipRoutes);
 app.use("/api/stories", storyRoutes);
 app.use("/upload", express.static("public/upload")); // Đảm bảo URL trỏ đến đúng thư mục public/upload
 
+// Create upload folder if not exists
+if (!fs.existsSync("public/upload")) {
+  fs.mkdirSync("public/upload", { recursive: true });
+}
+
 app.listen(8800, () => {
-  console.log("API Working !");
+  console.log("API Working on http://localhost:8800!");
 });

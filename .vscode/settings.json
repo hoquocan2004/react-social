@@ -2,5 +2,6 @@
   "notebook.formatOnSave.enabled": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "notebook.defaultFormatter": "esbenp.prettier-vscode",
-  "files.autoSaveWhenNoErrors": true
+  "files.autoSaveWhenNoErrors": true,
+  "cSpell.words": ["doannodejs"]
 }
