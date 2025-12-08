@@ -44,7 +44,7 @@ export const addStory = (req, res) => {
       }
 
       // Thêm thông tin vào cơ sở dữ liệu
-      const q = "INSERT INTO stories (`img`, `createdAt`, `userId`) VALUES (?)";
+      const q = "INSERT INTO stories (`img`, `createAt`, `userId`) VALUES (?)";
       const values = [
         req.file.filename, // Lưu tên tệp vào DB
         moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
@@ -71,7 +71,7 @@ export const getStories = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const q =
-      "SELECT s.id, s.img, u.name FROM stories s JOIN users u ON u.id = s.userId WHERE s.userId = ? ORDER BY s.createdAt DESC";
+      "SELECT s.id, s.img, u.name FROM stories s JOIN users u ON u.id = s.userId WHERE s.userId = ? ORDER BY s.createAt DESC";
 
     db.query(q, [userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
