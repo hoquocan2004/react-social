@@ -10,6 +10,7 @@ import relationshipRoutes from "./routes/relationships.js";
 import storyRoutes from "./routes/stories.js";
 import searchRoutes from "./routes/search.js";
 import messageRoutes from "./routes/messages.js";
+import { migrateDatabase } from "./migrations.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
@@ -27,6 +28,9 @@ app.use(
 );
 app.use(cookieParser());
 
+// Run migrations on startup
+migrateDatabase();
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/upload");
@@ -38,6 +42,21 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Multer for video with size limit 500MB
+const videoUpload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 500 * 1024 * 1024, // 500MB
+  },
+  fileFilter: function (req, file, cb) {
+    if (file.mimetype.startsWith("video/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only video files are allowed"));
+    }
+  },
+});
+
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
   console.log(
@@ -46,6 +65,23 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
       filename: file.filename,
       mimetype: file.mimetype,
       size: file.size,
+    }
+  );
+  res.status(200).json(file.filename);
+});
+
+// Video upload endpoint
+app.post("/api/upload/video", videoUpload.single("file"), (req, res) => {
+  const file = req.file;
+  if (!file) {
+    return res.status(400).json({ message: "No video file provided" });
+  }
+  console.log(
+    "[upload-video] file:",
+    file && {
+      filename: file.filename,
+      mimetype: file.mimetype,
+      size: Math.round(file.size / (1024 * 1024)) + "MB",
     }
   );
   res.status(200).json(file.filename);

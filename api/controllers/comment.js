@@ -11,11 +11,15 @@ export const getComments = (req, res) => {
 };
 
 export const addComment = (req, res) => {
+  console.log("🔥 [addComment] BODY:", req.body);
+
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
+
+    console.log("🧩 userInfo:", userInfo);
 
     const q =
       "INSERT INTO comments (`desc`, `createAt`, `userId`, `postId` ) VALUES (?)";
@@ -26,8 +30,13 @@ export const addComment = (req, res) => {
       req.body.postId,
     ];
 
+    console.log("🧱 SQL VALUES:", values);
+
     db.query(q, [values], (err, data) => {
-      if (err) return res.status(500).json(err);
+      if (err) {
+        console.log("❌ SQL ERROR:", err);
+        return res.status(500).json(err);
+      }
       return res.status(200).json("Comment has been created");
     });
   });

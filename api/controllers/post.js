@@ -48,13 +48,15 @@ export const addPost = (req, res) => {
 
     const desc = req.body.desc || "";
     const img = req.body.img || null;
+    const video = req.body.video || null;
 
     const q =
-      "INSERT INTO posts (`desc`, `img`, `createAt`, `userId`) VALUES (?)";
+      "INSERT INTO posts (`desc`, `img`, `video`, `createAt`, `userId`) VALUES (?)";
 
     const values = [
       desc,
       img,
+      video,
       moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       userInfo.id,
     ];
