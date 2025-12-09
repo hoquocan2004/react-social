@@ -11,6 +11,7 @@ import storyRoutes from "./routes/stories.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
+
 //middlewaves
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
@@ -19,7 +20,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:3001"],
   })
 );
 app.use(cookieParser());
@@ -37,6 +38,14 @@ const upload = multer({ storage: storage });
 
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
+  console.log(
+    "[upload] file:",
+    file && {
+      filename: file.filename,
+      mimetype: file.mimetype,
+      size: file.size,
+    }
+  );
   res.status(200).json(file.filename);
 });
 app.use("/api/auth", authRoutes);

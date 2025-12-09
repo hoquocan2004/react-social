@@ -77,6 +77,8 @@ export const login = (req, res) => {
     res
       .cookie("accessToken", token, {
         httpOnly: true,
+        secure: false, // Cho phép HTTP trong development
+        sameSite: "lax", // Tương thích với localhost
       })
       .status(200)
       .json(others);
@@ -87,8 +89,8 @@ export const logout = (req, res) => {
   res
     .clearCookie("accessToken", {
       httpOnly: true, // Đảm bảo cookie chỉ được gửi qua HTTP
-      secure: true, // Chỉ truyền cookie qua HTTPS
-      sameSite: "none", // Hỗ trợ chia sẻ cookie giữa các nguồn gốc khác nhau
+      secure: false, // Cho phép HTTP trong development
+      sameSite: "lax", // Thay đổi từ "none" để tương thích hơn
     })
     .status(200)
     .json("Đăng xuất thành công.");

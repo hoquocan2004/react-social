@@ -71,9 +71,9 @@ export const getStories = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const q =
-      "SELECT s.id, s.img, u.name FROM stories s JOIN users u ON u.id = s.userId WHERE s.userId = ? ORDER BY s.createAt DESC";
+      "SELECT DISTINCT s.id, s.img, u.name FROM stories s JOIN users u ON u.id = s.userId WHERE s.userId = ? OR s.userId IN (SELECT followedUserId FROM relationships WHERE followerUserId = ?) ORDER BY s.id DESC";
 
-    db.query(q, [userInfo.id], (err, data) => {
+    db.query(q, [userInfo.id, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
 
       // Trả về đường dẫn chính xác đến ảnh
