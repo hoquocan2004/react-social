@@ -1,0 +1,3 @@
+- [x] Update getStories query to include stories from followed users
+- [ ] Remove duplicate img tag in Stories modal
+- [ ] Verify the changes work
