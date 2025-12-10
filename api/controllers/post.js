@@ -32,6 +32,10 @@ export const getPosts = (req, res) => {
 
     db.query(q, values, (err, data) => {
       if (err) return res.status(500).json(err);
+      console.log(`[getPosts] Returned ${data.length} posts`);
+      data.forEach((p, i) => {
+        console.log(`  Post ${i}: desc="${p.desc}", img="${p.img}"`);
+      });
       return res.status(200).json(data);
     });
   });
@@ -49,6 +53,11 @@ export const addPost = (req, res) => {
     const desc = req.body.desc || "";
     const img = req.body.img || null;
     const video = req.body.video || null;
+
+    console.log(
+      `[addPost] desc="${desc}", desc.length=${desc ? desc.length : 0}`
+    );
+    console.log(`[addPost] img="${img}", video="${video}"`);
 
     const q =
       "INSERT INTO posts (`desc`, `img`, `video`, `createAt`, `userId`) VALUES (?)";
