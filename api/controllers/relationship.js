@@ -2,14 +2,36 @@ import { db } from "../connect.js";
 import jwt from "jsonwebtoken";
 
 export const getRelationships = (req, res) => {
-  const q = "SELECT followerUserId FROM relationships WHERE followedUserId = ?";
+  // If followedUserId is provided, return followers (people who follow the user)
+  if (req.query.followedUserId) {
+    const q =
+      "SELECT followerUserId FROM relationships WHERE followedUserId = ?";
 
-  db.query(q, [req.query.followedUserId], (err, data) => {
-    if (err) return res.status(500).json(err);
-    return res
-      .status(200)
-      .json(data.map((relationship) => relationship.followerUserId));
-  });
+    db.query(q, [req.query.followedUserId], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res
+        .status(200)
+        .json(data.map((relationship) => relationship.followerUserId));
+    });
+    return;
+  }
+
+  // If followerUserId is provided, return list of users that this user follows
+  if (req.query.followerUserId) {
+    const q =
+      "SELECT followedUserId FROM relationships WHERE followerUserId = ?";
+
+    db.query(q, [req.query.followerUserId], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res
+        .status(200)
+        .json(data.map((relationship) => relationship.followedUserId));
+    });
+    return;
+  }
+
+  // Default: bad request
+  return res.status(400).json({ message: "Missing query parameter" });
 };
 
 export const addRelationship = (req, res) => {
